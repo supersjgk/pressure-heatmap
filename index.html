@@ -25,8 +25,8 @@
     }).addTo(m);
 
     // Define a color gradient within the red color family
-    // var red_gradient = ['#FF6666', '#FF3333', '#FF0000'];
-    var red_gradient = ['#FBFF00', '#0FFF00', '#FF0000']
+    var red_gradient = ['#FF6666', '#FF3333', '#FF0000'];
+    // var red_gradient = ['#FBFF00', '#0FFF00', '#FF0000']
     
 
     // Function to load CSV file using Fetch API
@@ -56,15 +56,26 @@
                     // Create a polyline segment and add it to the map
                     L.polyline([start_point, end_point], { color: color, weight: 5 }).addTo(m);
                 }
+
+                let cseCoordinates = [32.73335269895025, -97.11337980114654];
+                
+                // Add the marker to the map
+                // cseMarker.addTo(map);
+                // Create a marker at the specified coordinates
+                let cseMarker = L.marker(cseCoordinates);
+                // Bind a popup to the marker with a message
+                cseMarker.bindPopup("UTA CSE Dept.");
+                // Add the marker to the map
+                cseMarker.addTo(map);
                 
                 // Uncomment below to set map according to user location
                 // map.locate({setView: true, maxZoom: 16});
                 
                 // Show a marker at the position of the UTA CSE
-                let cse = L.marker([32.73335269895025, -97.11337980114654]).addTo(map);
+                // let cse = L.marker([32.73335269895025, -97.11337980114654]).addTo(map);
 
                 // Bind a popup to the marker with a popup
-                cse.bindPopup("UTA CSE Dept.").openPopup();
+                // cse.bindPopup("UTA CSE Dept.").openPopup();
             })
             .catch(error => console.error('Error loading CSV:', error));
     }
