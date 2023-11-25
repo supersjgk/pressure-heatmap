@@ -20,9 +20,9 @@
     var m = L.map('map').setView([initial_latitude, initial_longitude], 20);
 
     // Add the OpenStreetMap tile layer
-    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     attribution: '© OpenStreetMap contributors'
-    // }).addTo(m);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(m);
 
     // Define a color gradient within the red color family
     // var red_gradient = ['#FF6666', '#FF3333', '#FF0000'];
