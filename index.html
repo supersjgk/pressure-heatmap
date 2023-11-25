@@ -57,14 +57,14 @@
                     L.polyline([start_point, end_point], { color: color, weight: 5 }).addTo(m);
                 }
                 // uncomment to add popup
-                // L.marker([32.73335269895025, -97.11337980114654]).addTo(m).bindPopup(
-                //     'UTA CSE Dept.'
-                // ).openPopup();
+                L.marker([32.73335269895025, -97.11337980114654]).addTo(m).bindPopup(
+                    'UTA CSE Dept.'
+                ).openPopup();
 
                 // marker at coordinates
-                let cseCoordinates = [32.73335269895025, -97.11337980114654];
-                let cseMarker = L.marker(cseCoordinates);
-                cseMarker.addTo(m);
+                // let cseCoordinates = [32.73335269895025, -97.11337980114654];
+                // let cseMarker = L.marker(cseCoordinates);
+                // cseMarker.addTo(m);
                 
                 // Uncomment below to set map according to user location
                 // map.locate({setView: true, maxZoom: 16});
