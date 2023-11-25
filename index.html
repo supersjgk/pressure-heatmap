@@ -56,31 +56,18 @@
                     // Create a polyline segment and add it to the map
                     L.polyline([start_point, end_point], { color: color, weight: 5 }).addTo(m);
                 }
+                // uncomment to add popup
+                // L.marker([32.73335269895025, -97.11337980114654]).addTo(m).bindPopup(
+                //     'UTA CSE Dept.'
+                // ).openPopup();
 
-                L.marker([32.73335269895025, -97.11337980114654]).addTo(m).bindPopup(
-                    'UTA CSE Dept.'
-                ).openPopup();
-
-
-                // let cseCoordinates = [32.73335269895025, -97.11337980114654];
-                
-                // // Add the marker to the map
-                // // cseMarker.addTo(map);
-                // // Create a marker at the specified coordinates
-                // let cseMarker = L.marker(cseCoordinates);
-                // // Bind a popup to the marker with a message
-                // cseMarker.bindPopup("UTA CSE Dept.");
-                // // Add the marker to the map
-                // cseMarker.addTo(map);
+                // marker at coordinates
+                let cseCoordinates = [32.73335269895025, -97.11337980114654];
+                let cseMarker = L.marker(cseCoordinates);
+                cseMarker.addTo(map);
                 
                 // Uncomment below to set map according to user location
                 // map.locate({setView: true, maxZoom: 16});
-                
-                // Show a marker at the position of the UTA CSE
-                // let cse = L.marker([32.73335269895025, -97.11337980114654]).addTo(map);
-
-                // Bind a popup to the marker with a popup
-                // cse.bindPopup("UTA CSE Dept.").openPopup();
             })
             .catch(error => console.error(error));
     }
