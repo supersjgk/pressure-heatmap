@@ -57,16 +57,21 @@
                     L.polyline([start_point, end_point], { color: color, weight: 5 }).addTo(m);
                 }
 
-                let cseCoordinates = [32.73335269895025, -97.11337980114654];
+                L.marker([32.73335269895025, -97.11337980114654]).addTo(map).bindPopup(
+                    'UTA CSE Dept.'
+                ).openPopup();
+
+
+                // let cseCoordinates = [32.73335269895025, -97.11337980114654];
                 
-                // Add the marker to the map
+                // // Add the marker to the map
+                // // cseMarker.addTo(map);
+                // // Create a marker at the specified coordinates
+                // let cseMarker = L.marker(cseCoordinates);
+                // // Bind a popup to the marker with a message
+                // cseMarker.bindPopup("UTA CSE Dept.");
+                // // Add the marker to the map
                 // cseMarker.addTo(map);
-                // Create a marker at the specified coordinates
-                let cseMarker = L.marker(cseCoordinates);
-                // Bind a popup to the marker with a message
-                cseMarker.bindPopup("UTA CSE Dept.");
-                // Add the marker to the map
-                cseMarker.addTo(map);
                 
                 // Uncomment below to set map according to user location
                 // map.locate({setView: true, maxZoom: 16});
@@ -77,7 +82,7 @@
                 // Bind a popup to the marker with a popup
                 // cse.bindPopup("UTA CSE Dept.").openPopup();
             })
-            .catch(error => console.error('Error loading CSV:', error));
+            .catch(error => console.error(error));
     }
 
     // Call the loadCSV function
