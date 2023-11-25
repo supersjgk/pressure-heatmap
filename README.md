@@ -1,2 +1,2 @@
 ##### pressure-heatmap
-[https://supersjgk.github.io/pressure-heatmap/](Click this)
+[Click this](https://supersjgk.github.io/pressure-heatmap/)
