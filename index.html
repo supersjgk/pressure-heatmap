@@ -28,64 +28,59 @@
         attribution: '© OpenStreetMap contributors'
     }).addTo(m);
 
-    // Load and process each CSV file
-    var numDataframes = 61; // Set the number of dataframes you have
+    // Define a red gradient for pressure levels
+    var red_gradient = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26'];
 
-    // Function to process a CSV file
-    // Function to process a CSV file
-    function processCSV(index) {
-        // Inside the loop where promises are created
-        console.log(`Processing CSV ${index}`);
-        
-        return new Promise(function(resolve, reject) {
-            Papa.parse(`dataframes/dataframe_${index}.csv`, {
-                header: true,
-                dynamicTyping: true,
-                delimiter: ',', // Explicitly specify the delimiter
-                complete: function (result) {
-                    if (result.errors.length > 0) {
-                        console.error(`Error processing CSV ${index}:`, result.errors);
-                        reject(`Error processing CSV ${index}`);
-                        return;
-                    }
-    
-                    var dataf = result.data;
-    
-                    for (var j = 0; j < dataf.length - 1; j++) {
-                        var startLatLng = [dataf[j].snapped_latitude, dataf[j].snapped_longitude];
-                        var endLatLng = [dataf[j + 1].snapped_latitude, dataf[j + 1].snapped_longitude];
-                        var pressureLevel = dataf[j].average_label;
+    // Function to load and process a CSV file
+    function loadCSV(filePath) {
+        return fetch(filePath)
+            .then(response => response.text())
+            .then(data => {
+                var rows = data.trim().split('\n').slice(1); // Assuming the first row is the header
+                var snapped_df = rows.map(row => {
+                    var columns = row.split(',');
+                    return {
+                        snapped_latitude: parseFloat(columns[0]),
+                        snapped_longitude: parseFloat(columns[1]),
+                        pressure_level: parseInt(columns[2])
+                    };
+                });
 
-                        //console.log('Processing CSV', index);
-                        //console.log('Start:', startLatLng, 'End:', endLatLng, 'Pressure:', pressureLevel);
+                // Iterate through the DataFrame to create colored polylines based on pressure level
+                for (var i = 0; i < snapped_df.length - 1; i++) {
+                    var start_point = [snapped_df[i].snapped_latitude, snapped_df[i].snapped_longitude];
+                    var end_point = [snapped_df[i + 1].snapped_latitude, snapped_df[i + 1].snapped_longitude];
+                    var pressure_level = snapped_df[i].pressure_level;
 
-                        // Add your color scaling logic here
-                        var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
-                        var color = colorScale(pressureLevel).hex();
-    
-                        // Create a polyline and add it to the map
-                        L.polyline([startLatLng, endLatLng], { color: color, weight: 5}).addTo(m);
-                    }
-    
-                    resolve(); // Resolve the promise when processing is done
+                    // Choose a color based on pressure level using the red gradient
+                    var color = red_gradient[pressure_level - 1];
+
+                    // Create a polyline segment and add it to the map
+                    L.polyline([start_point, end_point], { color: color, weight: 5 }).addTo(m);
                 }
-            });
-        });
+            })
+            .catch(error => console.error(error));
     }
 
-    // Process each CSV file sequentially using promises
-    var promises = [];
+    // Function to iterate over a folder of CSV files
+    function processCSVFiles(folderPath, numFiles) {
+        var promises = [];
 
-    for (var i = 0; i < numDataframes; i++) {
-        promises.push(processCSV(i));
+        for (var i = 0; i < numFiles; i++) {
+            var filePath = `${folderPath}/dataframe_${i}.csv`;
+            promises.push(loadCSV(filePath));
+        }
+
+        // After all promises are resolved, log a message
+        return Promise.all(promises)
+            .then(function() {
+                console.log('All CSV files processed');
+            })
+            .catch(error => console.error(error));
     }
 
-    // After all promises are resolved, log a message
-    Promise.all(promises).then(function() {
-        // Inside the Promise.all.then block
-        console.log('All CSV promises resolved');
-        console.log('All CSV files processed');
-    });
+    // Call the function to process CSV files in a folder
+    processCSVFiles('dataframes', 61);
 </script>
 
 </body>
