@@ -31,7 +31,7 @@
 
     // Load and process each CSV file
     var numDataframes = 61/* Set the number of dataframes you have */;
-    
+
     // Function to process a CSV file
     function processCSV(index) {
         return new Promise(function(resolve) {
@@ -63,9 +63,11 @@
     // Process each CSV file sequentially using promises
     var chain = Promise.resolve();
     for (var i = 0; i < numDataframes; i++) {
-        chain = chain.then(function() {
-            return processCSV(i);
-        });
+        chain = chain.then(function(index) {
+            return function() {
+                return processCSV(index);
+            };
+        }(i));
     }
 
     // After all promises are resolved, log a message
@@ -73,6 +75,5 @@
         console.log('All CSV files processed');
     });
 </script>
-
 </body>
 </html>
