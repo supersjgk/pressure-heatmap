@@ -29,7 +29,9 @@
     }).addTo(m);
 
     // Define a red gradient for pressure levels
-    var red_gradient = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26'];
+    //var red_gradient = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26'];
+    var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
+    var color = colorScale(pressureLevel).hex();
 
     // Function to load and process a CSV file
     function loadCSV(filePath) {
@@ -56,7 +58,7 @@
                     var color = red_gradient[pressure_level - 1];
 
                     // Create a polyline segment and add it to the map
-                    L.polyline([start_point, end_point], { color: color, weight: 5 }).addTo(m);
+                    L.polyline([start_point, end_point], { color: color, weight: 3}).addTo(m);
                 }
             })
             .catch(error => console.error(error));
