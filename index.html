@@ -62,14 +62,14 @@
     }
 
     // Process each CSV file sequentially using promises
-    var chain = Promise.resolve();
+    var promises = [];
 
     for (var i = 0; i < numDataframes; i++) {
-        chain = chain.then(processCSV.bind(null, i));
+        promises.push(processCSV(i));
     }
 
     // After all promises are resolved, log a message
-    chain.then(function() {
+    Promise.all(promises).then(function() {
         console.log('All CSV files processed');
     });
 </script>
