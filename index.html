@@ -32,6 +32,7 @@
     var numDataframes = 61; // Set the number of dataframes you have
 
     // Function to process a CSV file
+    // Function to process a CSV file
     function processCSV(index) {
         // Inside the loop where promises are created
         console.log(`Processing CSV ${index}`);
@@ -40,33 +41,35 @@
             Papa.parse(`dataframes/dataframe_${index}.csv`, {
                 header: true,
                 dynamicTyping: true,
+                delimiter: ',', // Explicitly specify the delimiter
                 complete: function (result) {
                     if (result.errors.length > 0) {
                         console.error(`Error processing CSV ${index}:`, result.errors);
                         reject(`Error processing CSV ${index}`);
                         return;
                     }
-
+    
                     var dataf = result.data;
-
+    
                     for (var j = 0; j < dataf.length - 1; j++) {
                         var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
                         var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
                         var pressureLevel = dataf[j]['average_label'];
-
+    
                         // Add your color scaling logic here
                         var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
                         var color = colorScale(pressureLevel).hex();
-
+    
                         // Create a polyline and add it to the map
-                        L.polyline([startLatLng, endLatLng], { color: color, weight: 5}).addTo(m);
+                        L.polyline([startLatLng, endLatLng], { color: color, weight: 2 }).addTo(map);
                     }
-
+    
                     resolve(); // Resolve the promise when processing is done
                 }
             });
         });
     }
+
 
     // Process each CSV file sequentially using promises
     var promises = [];
