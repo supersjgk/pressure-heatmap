@@ -30,33 +30,29 @@
     // Load dataframes using AJAX
     var dataframes;
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'dataframes.pkl', true);
-    xhr.responseType = 'blob';
+    xhr.open('GET', 'dataframes.json', true);
+    xhr.responseType = 'json';
 
     xhr.onload = function() {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            dataframes = JSON.parse(e.target.result);
+        dataframes = xhr.response;
 
-            // Create a color scale
-            var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
+        // Create a color scale
+        var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
 
-            // Loop through the dataframes and add polylines to the map
-            for (var i = 0; i < dataframes.length; i++) {
-                var dataf = dataframes[i];
+        // Loop through the dataframes and add polylines to the map
+        for (var i = 0; i < dataframes.length; i++) {
+            var dataf = dataframes[i];
 
-                for (var j = 0; j < dataf.length - 1; j++) {
-                    var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
-                    var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
-                    var pressureLevel = dataf[j]['average_label'];
-                    var color = colorScale(pressureLevel).hex();
+            for (var j = 0; j < dataf.length - 1; j++) {
+                var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
+                var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
+                var pressureLevel = dataf[j]['average_label'];
+                var color = colorScale(pressureLevel).hex();
 
-                    // Create a polyline and add it to the map
-                    L.polyline([startLatLng, endLatLng], { color: color, weight: 5 }).addTo(map);
-                }
+                // Create a polyline and add it to the map
+                L.polyline([startLatLng, endLatLng], { color: color, weight: 5 }).addTo(map);
             }
-        };
-        reader.readAsText(xhr.response);
+        }
     };
 
     xhr.send();
