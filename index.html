@@ -56,7 +56,7 @@
 
                     // Choose a color based on pressure level using the red gradient
                     // var color = red_gradient[pressure_level - 1];
-                    var color = colorScale(pressureLevel).hex();
+                    var color = colorScale(pressure_level).hex();
 
                     // Create a polyline segment and add it to the map
                     L.polyline([start_point, end_point], { color: color, weight: 3}).addTo(m);
