@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Leaflet Map</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+<!-- Create a div to hold your map -->
+<div id="map" style="height: 600px;"></div>
+
+<!-- Include Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Include Chroma.js for color scaling -->
+<script src="https://cdn.jsdelivr.net/npm/chroma-js@2.1.0/dist/chroma.min.js"></script>
+
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([32.73231057225321, -97.11378884978785], 16);
+
+    // Add a tile layer (you can change the tile URL to your preference)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Load dataframes using AJAX
+    var dataframes;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'dataframes.pkl', true);
+    xhr.responseType = 'blob';
+
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            dataframes = JSON.parse(e.target.result);
+
+            // Create a color scale
+            var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
+
+            // Loop through the dataframes and add polylines to the map
+            for (var i = 0; i < dataframes.length; i++) {
+                var dataf = dataframes[i];
+
+                for (var j = 0; j < dataf.length - 1; j++) {
+                    var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
+                    var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
+                    var pressureLevel = dataf[j]['average_label'];
+                    var color = colorScale(pressureLevel).hex();
+
+                    // Create a polyline and add it to the map
+                    L.polyline([startLatLng, endLatLng], { color: color, weight: 5 }).addTo(map);
+                }
+            }
+        };
+        reader.readAsText(xhr.response);
+    };
+
+    xhr.send();
+
+</script>
+
+</body>
+</html>
