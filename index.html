@@ -52,12 +52,12 @@
                     var dataf = result.data;
     
                     for (var j = 0; j < dataf.length - 1; j++) {
-                        var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
-                        var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
-                        var pressureLevel = dataf[j]['average_label'];
+                        var startLatLng = [dataf[j].snapped_latitude, dataf[j].snapped_longitude];
+                        var endLatLng = [dataf[j + 1].snapped_latitude, dataf[j + 1].snapped_longitude];
+                        var pressureLevel = dataf[j].average_label;
 
-                        console.log('Processing CSV', index);
-                        console.log('Start:', startLatLng, 'End:', endLatLng, 'Pressure:', pressureLevel);
+                        //console.log('Processing CSV', index);
+                        //console.log('Start:', startLatLng, 'End:', endLatLng, 'Pressure:', pressureLevel);
 
                         // Add your color scaling logic here
                         var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
