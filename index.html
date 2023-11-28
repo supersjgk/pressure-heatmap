@@ -42,17 +42,21 @@
         var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
 
         // Loop through the dataframes and add polylines to the map
+        console.log('Dataframes:', dataframes);
+
         for (var i = 0; i < dataframes.length; i++) {
             var dataf = dataframes[i];
 
             for (var j = 0; j < dataf.length - 1; j++) {
-                var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
-                var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
-                var pressureLevel = dataf[j]['average_label'];
-                var color = colorScale(pressureLevel).hex();
-
-                // Create a polyline and add it to the map
-                L.polyline([startLatLng, endLatLng], { color: color, weight: 5 }).addTo(map);
+                if (dataf[j] && dataf[j + 1]) {
+                    var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
+                    var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
+                    var pressureLevel = dataf[j]['average_label'];
+                    var color = colorScale(pressureLevel).hex();
+            
+                    // Create a polyline and add it to the map
+                    L.polyline([startLatLng, endLatLng], { color: color, weight: 5 }).addTo(map);
+                }
             }
         }
     };
