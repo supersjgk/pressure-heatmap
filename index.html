@@ -31,7 +31,7 @@
     // Define a red gradient for pressure levels
     //var red_gradient = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26'];
     var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
-    var color = colorScale(pressureLevel).hex();
+    
 
     // Function to load and process a CSV file
     function loadCSV(filePath) {
@@ -55,7 +55,8 @@
                     var pressure_level = snapped_df[i].pressure_level;
 
                     // Choose a color based on pressure level using the red gradient
-                    var color = red_gradient[pressure_level - 1];
+                    // var color = red_gradient[pressure_level - 1];
+                    var color = colorScale(pressureLevel).hex();
 
                     // Create a polyline segment and add it to the map
                     L.polyline([start_point, end_point], { color: color, weight: 3}).addTo(m);
