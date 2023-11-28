@@ -32,32 +32,47 @@
     // Load and process each CSV file
     var numDataframes = 61/* Set the number of dataframes you have */;
     
-    for (var i = 0; i < numDataframes; i++) {
-        Papa.parse(`dataframes/dataframe_${i}.csv`, {
-            header: true,
-            dynamicTyping: true,
-            complete: function (result) {
-                var dataf = result.data;
+    // Function to process a CSV file
+    function processCSV(index) {
+        return new Promise(function(resolve) {
+            Papa.parse(`dataframes/dataframe_${index}.csv`, {
+                header: true,
+                dynamicTyping: true,
+                complete: function (result) {
+                    var dataf = result.data;
 
-                for (var j = 0; j < dataf.length - 1; j++) {
-                    var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
-                    var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
-                    var pressureLevel = dataf[j]['average_label'];
+                    for (var j = 0; j < dataf.length - 1; j++) {
+                        var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
+                        var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
+                        var pressureLevel = dataf[j]['average_label'];
 
-                    // Add your color scaling logic here
-                    var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
-                    var color = colorScale(pressureLevel).hex();
+                        // Add your color scaling logic here
+                        var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
+                        var color = colorScale(pressureLevel).hex();
 
+                        // Create a polyline and add it to the map
+                        L.polyline([startLatLng, endLatLng], { color: color, weight: 2 }).addTo(map);
+                    }
 
-                    // Create a polyline and add it to the map
-                    L.polyline([startLatLng, endLatLng], { color: color, weight: 2 }).addTo(map);
+                    resolve(); // Resolve the promise when processing is done
                 }
-            }
+            });
         });
     }
-</script>
 
-<!-- ... (rest of your HTML code) ... -->
+    // Process each CSV file sequentially using promises
+    var chain = Promise.resolve();
+    for (var i = 0; i < numDataframes; i++) {
+        chain = chain.then(function() {
+            return processCSV(i);
+        });
+    }
+
+    // After all promises are resolved, log a message
+    chain.then(function() {
+        console.log('All CSV files processed');
+    });
+</script>
 
 </body>
 </html>
