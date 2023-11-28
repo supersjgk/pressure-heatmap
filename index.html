@@ -20,7 +20,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <!-- ... (your existing HTML code) ... -->
-
 <script>
     // Initialize the map
     var map = L.map('map').setView([32.73231057225321, -97.11378884978785], 16);
@@ -35,11 +34,17 @@
 
     // Function to process a CSV file
     function processCSV(index) {
-        return new Promise(function(resolve) {
+        return new Promise(function(resolve, reject) {
             Papa.parse(`dataframes/dataframe_${index}.csv`, {
                 header: true,
                 dynamicTyping: true,
                 complete: function (result) {
+                    if (result.errors.length > 0) {
+                        console.error(`Error processing CSV ${index}:`, result.errors);
+                        reject(`Error processing CSV ${index}`);
+                        return;
+                    }
+
                     var dataf = result.data;
 
                     for (var j = 0; j < dataf.length - 1; j++) {
