@@ -45,7 +45,9 @@
                     var pressureLevel = dataf[j]['average_label'];
 
                     // Add your color scaling logic here
-                    var color = 'YourColorScaleFunctionHere';
+                    var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
+                    var color = colorScale(pressureLevel).hex();
+
 
                     // Create a polyline and add it to the map
                     L.polyline([startLatLng, endLatLng], { color: color, weight: 2 }).addTo(map);
