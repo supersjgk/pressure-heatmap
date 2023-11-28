@@ -19,6 +19,7 @@
 <!--<script src="https://cdn.jsdelivr.net/npm/chroma-js@2.1.0/dist/chroma.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
 <script>
     // Initialize the map
@@ -29,40 +30,28 @@
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Load dataframes using AJAX
-    var dataframes;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'dataframes.json', true);
-    xhr.responseType = 'json';
+    // Load and process each CSV file
+    for (var i = 0; i < dataframes.length; i++) {
+        Papa.parse(`dataframe_${i}.csv`, {
+            header: true,
+            dynamicTyping: true,
+            complete: function (result) {
+                var dataf = result.data;
 
-    xhr.onload = function() {
-        dataframes = xhr.response;
-
-        // Create a color scale
-        var colorScale = chroma.scale('YlOrRd').domain([0, 3]);
-
-        // Loop through the dataframes and add polylines to the map
-        console.log('Dataframes:', dataframes);
-
-        for (var i = 0; i < dataframes.length; i++) {
-            var dataf = dataframes[i];
-
-            for (var j = 0; j < dataf.length - 1; j++) {
-                if (dataf[j] && dataf[j + 1]) {
+                for (var j = 0; j < dataf.length - 1; j++) {
                     var startLatLng = [dataf[j]['snapped_latitude'], dataf[j]['snapped_longitude']];
                     var endLatLng = [dataf[j + 1]['snapped_latitude'], dataf[j + 1]['snapped_longitude']];
                     var pressureLevel = dataf[j]['average_label'];
-                    var color = colorScale(pressureLevel).hex();
-            
+
+                    // Add your color scaling logic here
+                    var color = 'YourColorScaleFunctionHere';
+
                     // Create a polyline and add it to the map
-                    L.polyline([startLatLng, endLatLng], { color: color, weight: 5 }).addTo(map);
+                    L.polyline([startLatLng, endLatLng], { color: color, weight: 2 }).addTo(map);
                 }
             }
-        }
-    };
-
-    xhr.send();
-
+        });
+    }
 </script>
 
 </body>
