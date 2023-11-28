@@ -19,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<!-- ... (your existing HTML code) ... -->
 
 <script>
     // Initialize the map
@@ -30,7 +31,7 @@
     }).addTo(map);
 
     // Load and process each CSV file
-    var numDataframes = 61/* Set the number of dataframes you have */;
+    var numDataframes = 61; // Set the number of dataframes you have
 
     // Function to process a CSV file
     function processCSV(index) {
@@ -62,12 +63,9 @@
 
     // Process each CSV file sequentially using promises
     var chain = Promise.resolve();
+
     for (var i = 0; i < numDataframes; i++) {
-        chain = chain.then(function(index) {
-            return function() {
-                return processCSV(index);
-            };
-        }(i));
+        chain = chain.then(processCSV.bind(null, i));
     }
 
     // After all promises are resolved, log a message
@@ -75,5 +73,8 @@
         console.log('All CSV files processed');
     });
 </script>
+
+<!-- ... (rest of your HTML code) ... -->
+
 </body>
 </html>
