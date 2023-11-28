@@ -16,7 +16,6 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <!-- Include Chroma.js for color scaling -->
-<!--<script src="https://cdn.jsdelivr.net/npm/chroma-js@2.1.0/dist/chroma.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
@@ -31,8 +30,10 @@
     }).addTo(map);
 
     // Load and process each CSV file
-    for (var i = 0; i < dataframes.length; i++) {
-        Papa.parse(`dataframe_${i}.csv`, {
+    var numDataframes = 61/* Set the number of dataframes you have */;
+    
+    for (var i = 0; i < numDataframes; i++) {
+        Papa.parse(`dataframes/dataframe_${i}.csv`, {
             header: true,
             dynamicTyping: true,
             complete: function (result) {
@@ -53,6 +54,8 @@
         });
     }
 </script>
+
+<!-- ... (rest of your HTML code) ... -->
 
 </body>
 </html>
