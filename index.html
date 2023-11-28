@@ -61,7 +61,7 @@
                         var color = colorScale(pressureLevel).hex();
     
                         // Create a polyline and add it to the map
-                        L.polyline([startLatLng, endLatLng], { color: color, weight: 2 }).addTo(map);
+                        L.polyline([startLatLng, endLatLng], { color: color, weight: 5}).addTo(m);
                     }
     
                     resolve(); // Resolve the promise when processing is done
