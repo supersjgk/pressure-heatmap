@@ -50,11 +50,15 @@
       font-size: smaller; /* Adjust the size as needed */
       font-style: italic;
     }
-
     .research.desc {
       max-width: 1--%; /* Adjust the value as needed */
       margin: 0 auto; /* Center the text within the container */
       word-wrap: break-word; /* This property allows long words to be broken and wrap onto the next line */
+    }
+    .note {
+      padding-left: 120px;
+      padding-right: 100px;
+      font-size: smaller;
     }
   </style>
   <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -80,8 +84,7 @@
 <body class="layout--research wide">
 
   <div class="initial-content">
-    <!--  -->
-    <!--  -->
+
     <div id="main" role="main" class="mainBody">
       <div class="research" style="width:140% ! important;margin-left:-20% ! important;">
         <!-- Title -->
@@ -89,31 +92,18 @@
         <div class="aligned">
           <h1 id="page-title" class="page__title"> <p>Smartphone-based Cyclist Stress Assessment </p></h1>
         </div>
-        <!-- Sponsor -->
-        <!-- <p class="header">Sponsored by: </p> -->
-        <!-- Duration -->
         <p class="header"></p>
         <!-- Authors -->
         <p class="research items authors"></p>
         <!-- Description -->
         <p class="desc"></p>
         <p class="research headerStyle">Project Description</p>
-        <p class="research desc">Understanding how road environments stress cyclists has important implications for road design and transportation infrastructure planning. Tremendous efforts have been devoted to understanding cyclists’ stress perceptions using surveys, photos, and videos. However, they are unable to capture the “in the moment” experience, and can be biased, untimely, and costly. Alternatively, our approaches assess cyclist stress in a convenient, unobtrusive, and cost-effective manner. We have been pursuing building an intelligent and energy-efficient mobile application to capture cyclists' 'in-the-moment' stress as they travel on the transportation network. </p>
-	<!--<div class="small-image-container">
-          <img src="./Cyclist Pressure Heatmap_files/placeholder.png" alt="Some image" class="small-image">
-          <p class="image-caption">Image description</p>
-        </div>-->
         <!--<div class="responsive-video-container-half-center">
           <iframe src="./Cyclist Pressure Heatmap_files/video-player.png" frameborder="0" sandbox="" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
         </div>-->
         <br>
 
         <p class="research desc"><strong>Smartphone-based Cyclist Stress Assessment:</strong> To capture cyclist 'in-the-moment' stress, we develop CycStress, a novel smartphone-based cyclist stress assessment model leveraging context sensing. The model is built upon a combination of a Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM). Since obtaining a well-annotated dataset in cyclist stress presents significant challenges due to safety concerns, we create the annotated dataset on a bike simulator and leverage a contrastive learning framework to bridge the simulation-to-reality gap. In practice, CycStress only activates a minimal sensor set to avoid excessive energy consumption of mobile devices. </p><br>
-
-        <!--<div class="small-image-container">
-          <img src="./Cyclist Pressure Heatmap_files/placeholder.png" alt="Some image" class="small-image">
-          <p class="image-caption">Image description</p>
-        </div>-->
 
         <p class="research desc"><strong>Cyclist Stress Heatmap:</strong> We provide a stress distribution heat map for the study area, representing an aggregate of stress assessments from all participants. This map serves as a valuable tool for city planners, enabling them to pinpoint areas requiring enhancements in cycling infrastructure. Additionally, it allows cyclists to select routes with minimal stress or even stress-free options for their daily commutes.</p><br>
         
@@ -126,6 +116,7 @@
           <img src="./index_files/img1.jpg" alt="Some image" class="small-image">
           <p class="image-caption">Cyclist Stress Heatmap</p>
         </div>
+	<p class="note"><strong>Note: We plan to create an interactive heatmap with various map features; however, currently, we display a static heatmap in adherence to anonymization requirements.</strong></p>
       </div>
     </div>
   </div>
